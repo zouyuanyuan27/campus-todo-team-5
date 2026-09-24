@@ -1,5 +1,6 @@
 package edu.hbuas.campustodo.model;
 
+
 import java.util.Objects;
 
 /**
