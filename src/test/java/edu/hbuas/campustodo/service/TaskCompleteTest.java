@@ -39,4 +39,12 @@ class TaskCompleteTest {
         assertThrows(IllegalStateException.class,
                 () -> service.completeTask(task.getId()), "重复完成应报错");
     }
+
+    @Test
+    void shouldRejectBlankTitle() {
+        TaskService service = new TaskService();
+
+        assertThrows(IllegalArgumentException.class,
+                () -> service.addTask("   "), "空标题任务应报错");
+    }
 }
