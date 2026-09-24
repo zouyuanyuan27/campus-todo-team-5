@@ -21,4 +21,14 @@ public class TaskService {
     public List<Task> listAll() {
         return List.copyOf(tasks);
     }
+
+    public Task completeTask(long id) {
+        for (Task task : tasks) {
+            if (task.getId() == id) {
+                task.complete();
+                return task;
+            }
+        }
+        throw new IllegalArgumentException("任务不存在: " + id);
+    }
 }
