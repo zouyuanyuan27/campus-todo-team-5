@@ -32,4 +32,14 @@ public class TaskService {
                 .filter(t -> t.getPriority() == priority)
                 .collect(Collectors.toList());
     }
+
+    public Task completeTask(long id) {
+        for (Task task : taskList) {
+            if (task.getId() == id) {
+                task.complete();
+                return task;
+            }
+        }
+        throw new IllegalArgumentException("任务不存在: " + id);
+    }
 }
