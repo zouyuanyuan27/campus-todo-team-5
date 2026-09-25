@@ -6,11 +6,20 @@ import java.util.Objects;
  * 校园待办任务。
  */
 public class Task {
+    public enum Priority {
+        HIGH, MEDIUM, LOW
+    }
+
     private final long id;
     private final String title;
     private boolean completed;
+    private final Priority priority;
 
     public Task(long id, String title) {
+        this(id, title, Priority.MEDIUM);
+    }
+
+    public Task(long id, String title, Priority priority) {
         if (id <= 0) {
             throw new IllegalArgumentException("任务编号必须为正数");
         }
@@ -19,6 +28,8 @@ public class Task {
         }
         this.id = id;
         this.title = title.trim();
+        this.completed = false;
+        this.priority = priority;
     }
 
     public long getId() {
@@ -34,22 +45,26 @@ public class Task {
     }
 
     public void complete() {
+        if (completed) {
+            throw new IllegalStateException("任务已完成,不能重复完成");
+        }
         completed = true;
     }
 
+    public Priority getPriority() {
+        return priority;
+    }
+
     @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (!(other instanceof Task task)) {
-            return false;
-        }
-        return id == task.id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && completed == task.completed && Objects.equals(title, task.title) && priority == task.priority;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, title, completed, priority);
     }
 }
